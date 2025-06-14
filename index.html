@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <title>NEW CROWN Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-coral: #f59e0b;
+            --primary-sage: #059669;
+            --primary-sky: #0ea5e9;
+            --primary-lavender: #7c3aed;
+            --accent-peach: #fbbf24;
+            --accent-mint: #10b981;
+            --bg-cream: #ffffff;
+            --bg-white: #ffffff;
+            --text-dark: #1f2937;
+            --text-warm: #374151;
+            --border-soft: #f3f4f6;
+            --shadow-gentle: rgba(59, 130, 246, 0.08);
+        }
+        
+        body {
+            font-family: "Noto Sans JP", "Inter", sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+            min-height: 100vh;
+            touch-action: manipulation;
+            overflow-x: hidden;
+            color: var(--text-dark);
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+        }
+        
+        .container-spacing {
+            margin: 0 auto;
+            max-width: 95%;
+            width: 100%;
+        }
+        @media (min-width: 640px) {
+            .container-spacing { max-width: 500px; }
+        }
+        @media (min-width: 768px) {
+            .container-spacing { max-width: 600px; }
+        }
+        @media (min-width: 1024px) {
+            .container-spacing { max-width: 700px; }
+        }
+        
+        .game-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--primary-coral);
+            text-align: center;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .warm-card {
+            background: #ffffff;
+            border: 3px solid var(--border-soft);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px var(--shadow-gentle);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .warm-button {
+            background: var(--primary-coral);
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .warm-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+            background: #d97706;
+        }
+        .warm-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+        }
+        .warm-button:disabled {
+            background: #d1d5db;
+            color: #9ca3af;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        .grade-btn {
+            background: #ffffff;
+            border: 3px solid var(--border-soft);
+            border-radius: 20px;
+            color: var(--text-warm);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 0.75rem;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px var(--shadow-gentle);
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .grade-btn:hover {
+            border-color: var(--primary-coral);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);
+            background: #fefefe;
+        }
+        .grade-btn.active {
+            background: #fefefe;
+            border-color: var(--primary-coral);
+            color: var(--primary-coral);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+        }
+        .grade-btn.disabled {
+            background: #f8fafc;
+            color: #cbd5e1;
+            cursor: not-allowed;
+            border-color: #e2e8f0;
+        }
+        .grade-btn.disabled:hover {
+            transform: none;
+            box-shadow: 0 4px 16px var(--shadow-gentle);
+        }
+        
+        .coming-soon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 3;
+            box-shadow: 0 2px 6px rgba(251, 191, 36, 0.3);
+        }
+        
+        .lesson-btn {
+            background: #ffffff;
+            border: 2px solid var(--border-soft);
+            border-radius: 16px;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            padding: 0.75rem 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 60px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .lesson-btn:hover {
+            border-color: var(--primary-sky);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.15);
+            background: #fefefe;
+        }
+        .lesson-btn.selected {
+            background: #fefefe;
+            border-color: var(--primary-sky);
+            color: var(--primary-sky);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.25);
+        }
+        .lesson-btn.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--primary-sky);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .grammar-btn {
+            background: #ffffff;
+            border: 2px solid var(--border-soft);
+            border-radius: 12px;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            padding: 0.6rem 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 50px;
+            box-shadow: 0 3px 10px rgba(124, 58, 237, 0.06);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .grammar-btn:hover {
+            border-color: var(--primary-lavender);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.12);
+            background: #fefefe;
+        }
+        .grammar-btn.selected {
+            background: #fefefe;
+            border-color: var(--primary-lavender);
+            color: var(--primary-lavender);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+        }
+        .grammar-btn.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--primary-lavender);
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .modal.show {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            padding: 8rem 1rem 6rem 1rem !important;
+            animation: modalFadeIn 0.4s ease-out;
+            box-sizing: border-box !important;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-content {
+            width: 100% !important;
+            max-width: 600px !important;
+            margin: 0 auto !important;
+            position: relative !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        @media (min-width: 768px) {
+            .modal.show {
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 2rem !important;
+            }
+            
+            .modal-content {
+                position: static !important;
+                left: auto !important;
+                transform: none !important;
+                width: 100% !important;
+                max-width: 600px !important;
+                margin: 0 auto !important;
+            }
+        }
+        
+        #quizModal {
+            justify-content: flex-start !important;
+            align-items: center !important;
+            padding: 6rem 0 6rem 0 !important;
+        }
+        
+        #quizModal .modal-content {
+            width: 95% !important;
+            max-width: 550px !important;
+            min-width: 300px !important;
+            margin: 0 auto !important;
+            position: relative !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            padding: 0 !important;
+        }
+        
+        @media (min-width: 768px) {
+            #quizModal {
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 2rem !important;
+            }
+            
+            #quizModal .modal-content {
+                position: static !important;
+                left: auto !important;
+                transform: none !important;
+                width: 100% !important;
+                max-width: 550px !important;
+                margin: 0 auto !important;
+            }
+        }
+        
+        .quiz-card {
+            background: #ffffff !important;
+            border: 3px solid var(--border-soft) !important;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 32px var(--shadow-gentle) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            padding: 1rem !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+        
+        .quiz-question {
+            background: #ffffff;
+            border: 3px solid var(--border-soft);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .answer-display {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+            border: 3px solid var(--border-soft);
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            box-shadow: 0 4px 12px var(--shadow-gentle);
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+        
+        .answer-display.show {
+            border-color: var(--primary-sage);
+            background: #fefefe;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+        }
+        
+        .answer-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--primary-sage);
+            margin-bottom: 1rem;
+            text-align: center;
+            width: 100%;
+            padding: 1rem;
+            background: rgba(5, 150, 105, 0.05);
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .explanation-text {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: left;
+            width: 100%;
+        }
+        
+        .show-answer-btn {
+            background: var(--primary-sky);
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 16px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(14, 165, 233, 0.25);
+            margin: 0.5rem 0;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .show-answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.35);
+            background: #0284c7;
+        }
+        
+        .show-answer-btn:disabled {
+            background: #e2e8f0;
+            color: #9ca3af;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        .speak-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--primary-sage);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            vertical-align: middle;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+        }
+        .speak-btn:hover {
+            background: #047857;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+        }
+        .speak-btn.speaking {
+            animation: speakPulse 1s infinite;
+            background: #10b981;
+        }
+        @keyframes speakPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3); }
+            50% { transform: scale(1.15); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5); }
+        }
+        
+        .timer-display {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 4px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timer-display span {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .timer-normal {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+            border-color: #047857;
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+        }
+        
+        .timer-warning {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: white;
+            border-color: #d97706;
+            animation: timerPulse 1s infinite;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        .timer-danger {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+            border-color: #dc2626;
+            animation: timerPulse 0.5s infinite;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+        }
+        
+        .timer-unlimited {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+            border-color: #0284c7;
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+        }
+        
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6); }
+        }
+        
+        .timer-btn, .mode-btn, .direction-btn {
+            background: #ffffff;
+            border: 3px solid var(--border-soft);
+            border-radius: 12px;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px var(--shadow-gentle);
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .timer-btn:hover, .mode-btn:hover, .direction-btn:hover {
+            border-color: var(--primary-coral);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+        }
+        
+        .timer-btn.active, .mode-btn.active, .direction-btn.active {
+            background: #fefefe;
+            border-color: var(--primary-coral);
+            color: var(--primary-coral);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+        }
+        
+        .grade-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .lesson-grid {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .grammar-grid {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+        
+        .stats-display {
+            background: #ffffff;
+            border: 3px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 6px 20px var(--shadow-gentle);
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: var(--border-soft);
+            margin: 1.25rem 0;
+        }
+        
+        .fixed-header {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1001;
+            animation: floatingHeader 3s ease-in-out infinite;
+            max-width: 90vw;
+            overflow: hidden;
+            background: transparent;
+        }
+        
+        @keyframes floatingHeader {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-3px); }
+        }
+        
+        .header-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
+            border: 1.5px solid rgba(124, 58, 237, 0.12);
+            border-radius: 18px;
+            padding: 0.4rem 0.7rem;
+            min-width: 60px;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.08);
+        }
+        
+        .header-stat-item:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.18);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.98));
+            border-color: rgba(124, 58, 237, 0.25);
+        }
+        
+        .header-nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header-nav-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .header-nav-item:hover::before {
+            opacity: 1;
+        }
+        
+        .header-nav-item:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-nav-item.home {
+            background: linear-gradient(135deg, var(--primary-coral), #d97706);
+        }
+        
+        .header-nav-item.back {
+            background: linear-gradient(135deg, var(--primary-sage), #047857);
+        }
+        
+        .header-nav-item.voice {
+            background: linear-gradient(135deg, var(--primary-lavender), #6d28d9);
+        }
+        
+        .header-stat-number {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary-lavender);
+        }
+        
+        .header-stat-emoji {
+            font-size: 1.1rem;
+        }
+        
+        .action-button-container {
+            position: sticky;
+            bottom: 0;
+            background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0.98));
+            padding: 1.5rem 1rem;
+            margin: -1rem;
+            margin-top: 2rem;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+            backdrop-filter: blur(8px);
+        }
+        
+        .voice-gender-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background: #ffffff;
+            border: 3px solid var(--border-soft);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.08);
+            margin-bottom: 1rem;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .voice-gender-btn:hover {
+            border-color: var(--primary-lavender);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.15);
+            background: #fefefe;
+        }
+
+        .voice-gender-btn.selected {
+            border-color: var(--primary-lavender);
+            background: linear-gradient(135deg, #fefefe, #ffffff);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.25);
+        }
+
+        .voice-gender-btn.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--primary-lavender);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .voice-gender-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .voice-gender-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .voice-gender-description {
+            font-size: 0.85rem;
+            color: var(--text-warm);
+            line-height: 1.4;
+        }
+
+        .simple-voice-container {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ffffff, #fefefe);
+            border-radius: 16px;
+            border: 2px solid var(--border-soft);
+        }
+
+        .voice-selection-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .voice-toggle {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            padding: 0.75rem;
+            background: #ffffff;
+            border-radius: 12px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ddd;
+            transition: .4s;
+            border-radius: 28px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-sage);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        @media (max-width: 640px) {
+            .modal.show {
+                padding: 7rem 0.5rem 8rem 0.5rem !important;
+            }
+            
+            #quizModal {
+                padding: 5rem 0 8rem 0 !important;
+                align-items: center !important;
+            }
+            
+            #quizModal .modal-content {
+                width: 98% !important;
+                min-width: 280px !important;
+                max-width: calc(100vw - 1rem) !important;
+                margin: 0 auto !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+            
+            .quiz-card {
+                padding: 0.75rem !important;
+                margin: 0 !important;
+            }
+            
+            .container-spacing {
+                max-width: 95%;
+                margin-bottom: 2rem;
+            }
+            
+            .warm-card {
+                margin: 0.25rem;
+                padding: 1rem;
+            }
+            
+            .game-title {
+                font-size: clamp(1.25rem, 6vw, 2rem);
+            }
+            
+            .grade-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .lesson-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .grammar-grid {
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+            }
+            
+            .grade-btn {
+                padding: 0.75rem 0.5rem;
+                min-height: 70px;
+                font-size: 0.8rem;
+            }
+            
+            .lesson-btn {
+                padding: 0.6rem 0.4rem;
+                min-height: 50px;
+                font-size: 0.75rem;
+            }
+            
+            .grammar-btn {
+                padding: 0.5rem 0.3rem;
+                min-height: 45px;
+                font-size: 0.7rem;
+            }
+            
+            .timer-display {
+                width: 60px;
+                height: 60px;
+                font-size: 1.1rem;
+            }
+            
+            .quiz-question {
+                font-size: 1rem;
+                padding: 1rem;
+                min-height: 60px;
+            }
+            
+            .answer-display {
+                padding: 1.5rem;
+                min-height: 150px;
+                max-height: 300px;
+                margin-bottom: 4rem;
+            }
+            
+            .answer-text {
+                font-size: 1.2rem;
+                padding: 0.75rem;
+            }
+            
+            .explanation-text {
+                font-size: 1rem;
+            }
+            
+            .fixed-header {
+                top: 0.5rem;
+                padding: 0.6rem 1.2rem;
+                gap: 0.8rem;
+            }
+            
+            .header-stat-item {
+                min-width: 50px;
+                padding: 0.3rem 0.5rem;
+                gap: 0.3rem;
+                border-radius: 14px;
+            }
+            
+            .header-stat-number {
+                font-size: 0.8rem;
+            }
+            
+            .header-stat-emoji {
+                font-size: 0.95rem;
+            }
+            
+            .header-nav-item {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
+            
+            .voice-gender-btn {
+                min-height: 100px;
+                padding: 1.25rem 0.75rem;
+            }
+            
+            .voice-gender-icon {
+                font-size: 2rem;
+            }
+            
+            .voice-gender-label {
+                font-size: 1rem;
+            }
+            
+            .voice-gender-description {
+                font-size: 0.8rem;
+            }
+            
+            .action-button-container {
+                padding: 1rem 0.75rem;
+                margin: -1rem;
+                margin-top: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #quizModal .modal-content {
+                width: 99% !important;
+                max-width: calc(100vw - 0.5rem) !important;
+            }
+            
+            .quiz-card {
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center gap-6 relative">
+
+    <!-- メイン学年選択モーダル -->
+    <div id="mainGradeModal" class="modal show">
+        <div class="modal-content">
+            <div class="warm-card p-6 text-center">
+                <h1 class="game-title">🎯 NEW CROWN Quiz ⚡</h1>
+                <h2 class="text-lg font-semibold mb-3 text-gray-700">
+                    📚 学年を選択しよう
+                </h2>
+                <p class="text-gray-600 text-sm mb-4">あなたの学習レベルを選んでください。</p>
+                
+                <div class="grid grade-grid mb-6">
+                    <button class="grade-btn" onclick="selectGrade('grade1')">
+                        <div class="text-3xl mb-1">🔰</div>
+                        <div class="font-semibold text-sm">中学1年生</div>
+                    </button>
+                    <button class="grade-btn disabled" onclick="selectGrade('grade2')">
+                        <div class="text-3xl mb-1">🚧</div>
+                        <div class="font-semibold text-sm">中学2年生</div>
+                        <div class="coming-soon">準備中</div>
+                    </button>
+                    <button class="grade-btn disabled" onclick="selectGrade('grade3')">
+                        <div class="text-3xl mb-1">🚧</div>
+                        <div class="font-semibold text-sm">中学3年生</div>
+                        <div class="coming-soon">準備中</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 中学1年生レッスン選択モーダル -->
+    <div id="grade1Modal" class="modal">
+        <div class="modal-content">
+            <div class="warm-card p-6 text-center">
+                <h2 class="text-lg font-semibold mb-3 text-gray-700">
+                    🔰 中学1年生のレッスン
+                </h2>
+                <p class="text-gray-600 text-sm mb-4">学習したいレッスンを選んでください。</p>
+                
+                <div class="grid lesson-grid mb-6" id="grade1Lessons">
+                    <!-- JavaScriptで動的生成 -->
+                </div>
+                
+                <div class="action-button-container">
+                    <button id="startLessons1" class="warm-button px-8 py-3 text-sm w-full" onclick="startGrammarSelection()" disabled>
+                        🚀 選択してレッスンスタート！
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文法項目選択モーダル -->
+    <div id="grammarModal" class="modal">
+        <div class="modal-content">
+            <div class="warm-card p-6 text-center">
+                <h2 id="grammarModalTitle" class="text-lg font-semibold mb-3 text-gray-700">文法項目を選択</h2>
+                <p class="text-gray-600 text-sm mb-4">学習する内容を選んでください。</p>
+                
+                <div class="grid grammar-grid mb-4" id="grammarCategories">
+                    <!-- JavaScriptで動的生成 -->
+                </div>
+                
+                <div class="action-button-container">
+                    <button id="startGrammarQuiz" class="warm-button px-8 py-3 text-sm w-full" onclick="showGameScreen()" disabled>
+                        🚀 クイズスタート！
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音声設定モーダル -->
+    <div id="voiceSettingsModal" class="modal">
+        <div class="modal-content">
+            <div class="warm-card p-6 text-center">
+                <h2 class="text-lg font-semibold mb-4 text-gray-700">
+                    🎤 音声設定
+                </h2>
+                
+                <!-- 音声ON/OFF切り替え -->
+                <div class="voice-toggle">
+                    <div class="text-sm font-semibold text-gray-700 mb-2">🔊 音声機能</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="voiceEnabled" checked onchange="toggleVoiceEnabled()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <div class="text-xs text-gray-600 mt-2" id="voiceToggleDescription">音声機能が有効です</div>
+                </div>
+                
+                <!-- シンプル音声選択 -->
+                <div id="simpleVoiceSelection">
+                    <!-- JavaScriptで動的生成 -->
+                </div>
+                
+                <div class="action-button-container">
+                    <button class="warm-button px-6 py-3 text-sm w-full" onclick="closeVoiceSettings()">
+                        ✅ 設定完了
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲーム画面 -->
+    <div id="gameScreen" class="hidden">
+        <div class="warm-card p-6 text-center container-spacing mb-6">
+            <h1 class="game-title">🎯 NEW CROWN Quiz ⚡</h1>
+            <div id="currentCategory" class="mb-4"></div>
+            <div class="stats-display">
+                <div class="grid grid-cols-2 gap-4 text-center mb-4">
+                    <div>
+                        <div class="text-2xl font-bold text-blue-600" id="studyCount">0</div>
+                        <div class="text-xs text-gray-600">📚 学習回数</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-purple-600" id="clickCount">0</div>
+                        <div class="text-xs text-gray-600">🖱️ セッション</div>
+                    </div>
+                </div>
+                
+                <!-- 制限時間設定 -->
+                <div class="section-divider"></div>
+                <div class="text-center">
+                    <div class="text-sm font-semibold text-gray-700 mb-3">⏰ 制限時間設定</div>
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <button id="timer3Btn" class="timer-btn active" onclick="setTimerLimit(3)">
+                            ⚡ 3秒
+                        </button>
+                        <button id="timer5Btn" class="timer-btn" onclick="setTimerLimit(5)">
+                            🔥 5秒
+                        </button>
+                        <button id="timer10Btn" class="timer-btn" onclick="setTimerLimit(10)">
+                            🌟 10秒
+                        </button>
+                        <button id="timerUnlimitedBtn" class="timer-btn" onclick="setTimerLimit('unlimited')">
+                            ∞ 無制限
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 出題形式選択 -->
+                <div class="section-divider"></div>
+                <div class="text-center">
+                    <div class="text-sm font-semibold text-gray-700 mb-3">🎲 出題スタイル</div>
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <button id="randomModeBtn" class="mode-btn active" onclick="setQuestionMode('random')">
+                            🎯 ランダム
+                        </button>
+                        <button id="sequentialModeBtn" class="mode-btn" onclick="setQuestionMode('sequential')">
+                            📖 順番通り
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 出題方向選択 -->
+                <div class="section-divider"></div>
+                <div class="text-center">
+                    <div class="text-sm font-semibold text-gray-700 mb-3">🌏 言語方向</div>
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <button id="jpToEnBtn" class="direction-btn active" onclick="setQuestionDirection('jp_to_en')">
+                            🇯🇵→🇺🇸<br><small>日→英</small>
+                        </button>
+                        <button id="enToJpBtn" class="direction-btn" onclick="setQuestionDirection('en_to_jp')">
+                            🇺🇸→🇯🇵<br><small>英→日</small>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button id="mixedBtn" class="direction-btn" onclick="setQuestionDirection('mixed')">
+                            🔀 ミックスモード
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button id="startQuizButton" class="warm-button px-8 py-4 text-base font-semibold mt-6" onclick="startMainQuiz()">
+                🚀 レッツスタート！
+            </button>
+        </div>
+    </div>
+
+    <!-- クイズモーダル -->
+    <div id="quizModal" class="modal">
+        <div class="modal-content">
+            <div class="quiz-card">
+                <!-- ヘッダー部分 -->
+                <div class="quiz-header">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex-1 text-center">
+                            <h2 class="font-semibold text-lg text-gray-700">
+                                🎯 NEW CROWN Quiz Challenge
+                            </h2>
+                            <div id="remainingCount" class="text-sm text-gray-600 mt-1"></div>
+                        </div>
+                        <div class="flex-shrink-0 ml-4">
+                            <div id="timerDisplay" class="timer-display timer-normal">
+                                <span id="timerValue">準備中</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 問題表示エリア -->
+                <div id="quizQuestion" class="quiz-question"></div>
+                
+                <!-- 解答表示ボタン -->
+                <div class="text-center">
+                    <button id="showAnswerBtn" class="show-answer-btn" onclick="showAnswer()">
+                        💡 解答を見る
+                    </button>
+                </div>
+                
+                <div id="answerDisplay" class="answer-display">
+                    <div id="answerContent">
+                        <div class="text-gray-500" style="text-align: center;">解答を声に出してから解答ボタンを押してね！</div>
+                    </div>
+                </div>
+                
+                <!-- 操作ボタン -->
+                <div class="action-button-container">
+                    <button id="quizNext" class="warm-button py-3 text-sm w-full" onclick="nextQuestion()" disabled>
+                        🌟 次のチャレンジ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ヘッダー -->
+    <div class="fixed-header">
+        <!-- ホームボタン -->
+        <div class="header-nav-item home" onclick="goBackToMain()" title="ホーム画面に戻る">
+            🏠
+        </div>
+        
+        <!-- 戻るボタン -->
+        <div class="header-nav-item back" onclick="goBack()" title="前の画面に戻る">
+            ◀︎
+        </div>
+        
+        <!-- 総クリック統計 -->
+        <div class="header-stat-item" onclick="confirmResetTotal()" title="タップでリセット確認">
+            <span class="header-stat-emoji">🏆</span>
+            <span class="header-stat-number" id="footerTotalClick">0</span>
+        </div>
+        
+        <!-- 今日のクリック統計 -->
+        <div class="header-stat-item" onclick="confirmResetToday()" title="タップでリセット確認">
+            <span class="header-stat-emoji">📅</span>
+            <span class="header-stat-number" id="footerTodayClick">0</span>
+        </div>
+        
+        <!-- 音声設定ボタン -->
+        <div class="header-nav-item voice" onclick="openVoiceSettings()" title="音声設定">
+            🎤
+        </div>
+    </div>
+
+<script>
+// レッスンデータ
+const lessons = {
+    grade1: [
+        {
+            id: 'lesson1',
+            name: 'Lesson1 - 自己紹介と基本表現',
+            grammar: [
+                {id: 'lesson1_part1_scene1', name: 'Part1 Scene1 - 基本の表現'},
+                {id: 'lesson1_part1_scene2', name: 'Part1 Scene2 - 詳しい自己紹介'},
+                {id: 'lesson1_part2_scene1', name: 'Part2 Scene1 - 疑問文'},
+                {id: 'lesson1_part2_scene2', name: 'Part2 Scene2 - クラブ活動'},
+                {id: 'lesson1_part3_scene1', name: 'Part3 Scene1 - What疑問文'},
+                {id: 'lesson1_part3_scene2', name: 'Part3 Scene2 - 写真と動物'}
+            ]
+        },
+        {
+            id: 'lesson2',
+            name: 'Lesson2 - 能力と人物紹介',
+            grammar: [
+                {id: 'lesson2_part1_scene1', name: 'Part1 Scene1 - 人物紹介'},
+                {id: 'lesson2_part1_scene2', name: 'Part1 Scene2 - ヒーロー紹介'},
+                {id: 'lesson2_part2_scene1', name: 'Part2 Scene1 - Can疑問文'},
+                {id: 'lesson2_part2_scene2', name: 'Part2 Scene2 - 将棋を教える'}
+            ]
+        },
+        {
+            id: 'lesson3',
+            name: 'Lesson3 - 物の紹介と疑問表現',
+            grammar: [
+                {id: 'lesson3_part1_scene1', name: 'Part1 Scene1 - This/That'},
+                {id: 'lesson3_part1_scene2', name: 'Part1 Scene2 - 神社見学'},
+                {id: 'lesson3_part2_scene1', name: 'Part2 Scene1 - What疑問文応用'},
+                {id: 'lesson3_part2_scene2', name: 'Part2 Scene2 - シタール紹介'},
+                {id: 'lesson3_part3_scene1', name: 'Part3 Scene1 - 漫画キャラクター'}
+            ]
+        }
+    ]
+};
+
+// サンプル問題データ
+const sampleProblems = {
+    'grade1_lesson1_part1_scene1': [
+        {
+            q: "私は加藤陸です。",
+            ans: "I am Kato Riku.",
+            exp: "自己紹介の基本表現です。「I am + 名前」で「私は〜です」と言えます。"
+        },
+        {
+            q: "私は中学生です。",
+            ans: "I am a junior high school student.",
+            exp: "職業や身分を表す時は「I am + a/an + 名詞」の形を使います。"
+        }
+    ],
+    'grade1_lesson1_part1_scene2': [
+        {
+            q: "私の名前は田中です。",
+            ans: "My name is Tanaka.",
+            exp: "「My name is + 名前」で自分の名前を紹介できます。"
+        }
+    ],
+    'grade1_lesson2_part1_scene1': [
+        {
+            q: "これは私の友達です。",
+            ans: "This is my friend.",
+            exp: "「This is + 名詞」で人やものを紹介する表現です。"
+        }
+    ],
+    'grade1_lesson3_part1_scene1': [
+        {
+            q: "これは英語の本です。",
+            ans: "This is an English book.",
+            exp: "「This is + 名詞」で「これは〜です」を表します。母音で始まる単語の前にはanを使います。"
+        }
+    ]
+};
+
+// 音声システム（スマホ対応強化版）
+class VoiceSystem {
+    constructor() {
+        this.synth = null;
+        this.voices = [];
+        this.selectedVoice = null;
+        this.isEnabled = true;
+        this.isActivated = false;
+        this.initRetryCount = 0;
+        this.maxRetries = 10;
+        
+        console.log('🎤 スマホ対応音声システム初期化開始');
+        
+        if ('speechSynthesis' in window) {
+            this.synth = window.speechSynthesis;
+            this.initializeVoices();
+            this.ensureAudioContext();
+        } else {
+            console.log('❌ 音声合成がサポートされていません');
+        }
+    }
+
+    ensureAudioContext() {
+        console.log('📱 スマホ対応音声コンテキスト確保開始');
+        
+        const activateAudio = () => {
+            if (this.isActivated) return;
+            
+            try {
+                console.log('🎵 音声システム活性化試行');
+                this.isActivated = true;
+                
+                if (this.synth) {
+                    this.synth.cancel();
+                    
+                    const testUtterance = new SpeechSynthesisUtterance('');
+                    testUtterance.volume = 0;
+                    testUtterance.rate = 10;
+                    testUtterance.pitch = 1;
+                    
+                    this.synth.speak(testUtterance);
+                    
+                    setTimeout(() => {
+                        this.synth.cancel();
+                        console.log('✅ 音声システム活性化完了');
+                    }, 100);
+                }
+            } catch (e) {
+                console.log('⚠️ 音声システム活性化に失敗:', e);
+                this.isActivated = false;
+            }
+        };
+        
+        const events = [
+            'click', 'touchstart', 'touchend', 'touchmove', 
+            'mousedown', 'mouseup', 'keydown', 'keyup'
+        ];
+        
+        events.forEach(eventType => {
+            document.addEventListener(eventType, activateAudio, {
+                once: true, 
+                passive: true,
+                capture: true
+            });
+        });
+        
+        setTimeout(() => {
+            if (!this.isActivated) {
+                console.log('⏰ タイマーによる音声活性化試行');
+                activateAudio();
+            }
+        }, 1000);
+    }
+
+    initializeVoices() {
+        this.loadVoices();
+        
+        if (this.synth && this.synth.onvoiceschanged !== undefined) {
+            this.synth.onvoiceschanged = () => {
+                this.loadVoices();
+            };
+        }
+
+        const retryDelays = [100, 300, 600, 1000, 2000, 3000, 5000];
+        retryDelays.forEach((delay, index) => {
+            setTimeout(() => {
+                if (this.voices.length === 0) {
+                    this.loadVoices();
+                }
+            }, delay);
+        });
+    }
+
+    loadVoices() {
+        if (!this.synth) return;
+        
+        try {
+            const allVoices = this.synth.getVoices();
+            console.log(`🎤 全音声取得: ${allVoices.length}個`);
+            
+            if (allVoices.length === 0) return;
+            
+            this.voices = allVoices.filter(voice => {
+                const lang = voice.lang.toLowerCase();
+                return lang.startsWith('en') || lang.includes('english');
+            });
+            
+            console.log(`🔍 英語音声フィルタ結果: ${this.voices.length}個`);
+            
+            if (this.voices.length > 0 && !this.selectedVoice) {
+                this.selectedVoice = this.voices[0];
+                console.log('✅ デフォルト音声設定完了:', this.selectedVoice.name);
+            }
+        } catch (e) {
+            console.error('❌ 音声リストの読み込みに失敗:', e);
+        }
+    }
+
+    speak(text) {
+        if (!this.isEnabled || !text.trim() || !this.synth) {
+            return;
+        }
+        
+        try {
+            console.log('🔊 音声再生開始:', text.substring(0, 50));
+            
+            this.synth.cancel();
+            
+            setTimeout(() => {
+                try {
+                    const cleanText = text.replace(/[^\w\s.!?',\-]/g, '').replace(/\s+/g, ' ').trim();
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
+                    
+                    if (this.selectedVoice) {
+                        utterance.voice = this.selectedVoice;
+                    }
+                    
+                    utterance.rate = 0.85;
+                    utterance.pitch = 1.0;
+                    utterance.volume = 0.9;
+                    
+                    utterance.onstart = () => console.log('✅ 音声再生開始');
+                    utterance.onend = () => console.log('✅ 音声再生完了');
+                    utterance.onerror = (e) => {
+                        console.error('❌ 音声再生エラー:', e);
+                    };
+                    
+                    this.synth.speak(utterance);
+                    return utterance;
+                    
+                } catch (innerError) {
+                    console.error('❌ 音声再生内部エラー:', innerError);
+                }
+            }, 100);
+            
+        } catch (e) {
+            console.error('❌ 音声再生に失敗:', e);
+        }
+    }
+
+    setEnabled(enabled) {
+        this.isEnabled = enabled;
+        console.log('🔊 音声機能:', enabled ? '有効' : '無効');
+        
+        if (!enabled && this.synth) {
+            try {
+                this.synth.cancel();
+            } catch (e) {
+                console.log('音声停止に失敗:', e);
+            }
+        }
+    }
+}
+
+// ゲーム変数
+let voiceSystem;
+let selectedLessons = [];
+let selectedGrammarItems = [];
+let currentQuestionIndex = 0;
+let studyCount = 0;
+let sessionClickCount = 0;
+let usedQuestions = [];
+let currentGrade = '';
+let questionMode = 'random';
+let sequentialIndex = 0;
+let questionDirection = 'jp_to_en';
+let timerLimit = 3;
+let timerInterval = null;
+let currentTimerValue = 0;
+let isTimerRunning = false;
+let isQuizAnswered = false;
+let allQuestions = [];
+let currentScreen = 'main';
+let clickStats = { total: 0, daily: {} };
+
+// 初期化
+function init() {
+    console.log('=== NEW CROWN Quiz 初期化開始 ===');
+    
+    try {
+        voiceSystem = new VoiceSystem();
+        loadClickStats();
+        initLessons();
+        currentScreen = 'main';
+        updateBackButton();
+        
+        console.log('✅ NEW CROWN Quiz 初期化完了');
+    } catch (error) {
+        console.error('❌ 初期化エラー:', error);
+    }
+}
+
+// レッスン初期化
+function initLessons() {
+    const container = document.getElementById('grade1Lessons');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    lessons.grade1.forEach(lesson => {
+        const btn = document.createElement('button');
+        btn.className = 'lesson-btn';
+        btn.textContent = lesson.name;
+        btn.setAttribute('data-lesson-id', lesson.id);
+        btn.onclick = () => toggleLessonSelection(lesson);
+        container.appendChild(btn);
+    });
+}
+
+// 学年選択
+function selectGrade(grade) {
+    console.log('学年選択:', grade);
+    incrementClickCount();
+    
+    if (grade === 'grade2' || grade === 'grade3') {
+        const gradeNum = grade.replace('grade', '');
+        alert(`🚧 中学${gradeNum}年生の内容は現在準備中です。\n今後のアップデートをお待ちください！`);
+        return;
+    }
+    
+    currentGrade = grade;
+    hideAllModals();
+    document.getElementById('grade1Modal').classList.add('show');
+    currentScreen = 'grade';
+    updateBackButton();
+}
+
+// レッスン選択切り替え
+function toggleLessonSelection(lesson) {
+    console.log('レッスン選択:', lesson.id);
+    incrementClickCount();
+    
+    const lessonBtn = event.target;
+    const isSelected = lessonBtn.classList.contains('selected');
+    
+    if (isSelected) {
+        lessonBtn.classList.remove('selected');
+        selectedLessons = selectedLessons.filter(l => l.id !== lesson.id);
+    } else {
+        lessonBtn.classList.add('selected');
+        selectedLessons.push(lesson);
+    }
+    
+    updateStartButton();
+}
+
+// スタートボタン更新
+function updateStartButton() {
+    const startBtn = document.getElementById('startLessons1');
+    if (selectedLessons.length > 0) {
+        startBtn.disabled = false;
+    } else {
+        startBtn.disabled = true;
+    }
+}
+
+// 文法選択画面表示
+function startGrammarSelection() {
+    if (selectedLessons.length === 0) return;
+    
+    incrementClickCount();
+    hideAllModals();
+    
+    const modal = document.getElementById('grammarModal');
+    const title = document.getElementById('grammarModalTitle');
+    const container = document.getElementById('grammarCategories');
+    
+    title.textContent = '📚 文法項目を選択';
+    container.innerHTML = '';
+    selectedGrammarItems = [];
+    
+    selectedLessons.forEach(lesson => {
+        lesson.grammar.forEach(grammar => {
+            const btn = document.createElement('button');
+            btn.className = 'grammar-btn';
+            btn.textContent = grammar.name;
+            btn.dataset.grammarId = grammar.id;
+            btn.onclick = () => toggleGrammarSelection(btn, grammar, lesson);
+            container.appendChild(btn);
+        });
+    });
+    
+    currentScreen = 'grammar';
+    updateBackButton();
+    modal.classList.add('show');
+}
+
+// 文法選択切り替え
+function toggleGrammarSelection(btn, grammar, lesson) {
+    incrementClickCount();
+    
+    const isSelected = btn.classList.contains('selected');
+    
+    if (isSelected) {
+        btn.classList.remove('selected');
+        selectedGrammarItems = selectedGrammarItems.filter(item => item.key !== grammar.id);
+    } else {
+        btn.classList.add('selected');
+        selectedGrammarItems.push({
+            key: grammar.id,
+            name: grammar.name,
+            lesson: lesson
+        });
+    }
+    
+    const startButton = document.getElementById('startGrammarQuiz');
+    startButton.disabled = selectedGrammarItems.length === 0;
+}
+
+// ゲーム画面表示
+function showGameScreen() {
+    if (selectedGrammarItems.length === 0) return;
+    
+    incrementClickCount();
+    prepareQuestions();
+    
+    hideAllModals();
+    const gameScreen = document.getElementById('gameScreen');
+    gameScreen.classList.remove('hidden');
+    
+    const categoryElement = document.getElementById('currentCategory');
+    categoryElement.textContent = selectedGrammarItems.map(item => item.name).join(', ');
+    
+    updateClickDisplays();
+    currentScreen = 'game';
+    updateBackButton();
+}
+
+// 問題準備
+function prepareQuestions() {
+    allQuestions = [];
+    
+    selectedGrammarItems.forEach(item => {
+        const problemKey = `${currentGrade}_${item.key}`;
+        const problems = sampleProblems[problemKey] || [];
+        
+        problems.forEach(problem => {
+            allQuestions.push({
+                jp: problem.q,
+                en: problem.ans,
+                explanation: problem.exp || '解説はありません。',
+                grammarName: item.name
+            });
+        });
+    });
+    
+    if (allQuestions.length === 0) {
+        allQuestions = [
+            {
+                jp: "私は加藤陸です。",
+                en: "I am Kato Riku.",
+                explanation: "自己紹介の基本表現です。",
+                grammarName: "サンプル"
+            }
+        ];
+    }
+    
+    usedQuestions = [];
+    currentQuestionIndex = 0;
+    sequentialIndex = 0;
+    
+    console.log(`✅ 問題準備完了: ${allQuestions.length}問`);
+}
+
+// メインクイズ開始
+function startMainQuiz() {
+    if (allQuestions.length === 0) return;
+    
+    incrementClickCount();
+    hideAllModals();
+    
+    const gameScreen = document.getElementById('gameScreen');
+    gameScreen.classList.add('hidden');
+    
+    const modal = document.getElementById('quizModal');
+    modal.classList.add('show');
+    
+    currentScreen = 'quiz';
+    updateBackButton();
+    
+    showNextQuestion();
+}
+
+// 次の問題表示
+function showNextQuestion() {
+    if (usedQuestions.length >= allQuestions.length) {
+        endQuiz();
+        return;
+    }
+    
+    let nextQuestion;
+    
+    if (questionMode === 'random') {
+        const availableQuestions = allQuestions.filter((_, index) => !usedQuestions.includes(index));
+        const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+        nextQuestion = availableQuestions[randomIndex];
+        currentQuestionIndex = allQuestions.indexOf(nextQuestion);
+    } else {
+        if (sequentialIndex >= allQuestions.length) {
+            sequentialIndex = 0;
+        }
+        nextQuestion = allQuestions[sequentialIndex];
+        currentQuestionIndex = sequentialIndex;
+    }
+    
+    displayQuestion(nextQuestion);
+    isQuizAnswered = false;
+    
+    const remainingElement = document.getElementById('remainingCount');
+    if (remainingElement) {
+        remainingElement.textContent = `残り: ${allQuestions.length - usedQuestions.length}問`;
+    }
+    
+    startTimer();
+}
+
+// 問題表示
+function displayQuestion(question) {
+    const questionElement = document.getElementById('quizQuestion');
+    const answerDisplay = document.getElementById('answerDisplay');
+    const answerContent = document.getElementById('answerContent');
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    const nextBtn = document.getElementById('quizNext');
+    
+    console.log('🎯 問題表示開始');
+    
+    let questionText = '';
+    let currentQuestionType = '';
+    
+    if (questionDirection === 'jp_to_en') {
+        questionText = question.jp;
+        currentQuestionType = 'jp_to_en';
+    } else if (questionDirection === 'en_to_jp') {
+        questionText = question.en;
+        currentQuestionType = 'en_to_jp';
+    } else {
+        const isJpToEn = Math.random() < 0.5;
+        if (isJpToEn) {
+            questionText = question.jp;
+            currentQuestionType = 'jp_to_en';
+        } else {
+            questionText = question.en;
+            currentQuestionType = 'en_to_jp';
+        }
+    }
+    
+    questionElement.dataset.questionType = currentQuestionType;
+    questionElement.innerHTML = '';
+    questionElement.textContent = questionText;
+    
+    // 英語問題の場合はスピーカーボタン追加と自動音声再生
+    if (currentQuestionType === 'en_to_jp' && questionText.match(/[a-zA-Z]/)) {
+        const speakBtn = document.createElement('button');
+        speakBtn.className = 'speak-btn';
+        speakBtn.innerHTML = '🔊';
+        speakBtn.title = '英語で読み上げ';
+        speakBtn.onclick = (e) => {
+            e.stopPropagation();
+            speakEnglishText(questionText, speakBtn);
+        };
+        speakBtn.style.marginLeft = '10px';
+        speakBtn.style.marginTop = '10px';
+        questionElement.appendChild(speakBtn);
+        
+        // 自動音声再生
+        setTimeout(() => {
+            console.log('🔊 英語問題の自動音声再生');
+            speakEnglishText(questionText);
+        }, 800);
+    }
+    
+    // UI初期化
+    answerDisplay.classList.remove('show');
+    answerContent.innerHTML = '<div class="text-gray-500" style="text-align: center;">解答を声に出してから解答ボタンを押してね！</div>';
+    
+    showAnswerBtn.disabled = false;
+    showAnswerBtn.textContent = '💡 解答を見る';
+    nextBtn.disabled = true;
+}
+
+// 解答表示
+function showAnswer() {
+    const question = allQuestions[currentQuestionIndex];
+    const questionElement = document.getElementById('quizQuestion');
+    const answerDisplay = document.getElementById('answerDisplay');
+    const answerContent = document.getElementById('answerContent');
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    const nextBtn = document.getElementById('quizNext');
+    
+    incrementClickCount();
+    stopTimer();
+    isQuizAnswered = true;
+    
+    const currentQuestionType = questionElement.dataset.questionType;
+    
+    let answerText = '';
+    if (currentQuestionType === 'jp_to_en') {
+        answerText = question.en;
+    } else {
+        answerText = question.jp;
+    }
+    
+    answerContent.innerHTML = '';
+    
+    const answerTextDiv = document.createElement('div');
+    answerTextDiv.className = 'answer-text';
+    
+    // 英語解答の場合はスピーカーボタン付きで表示
+    if (currentQuestionType === 'jp_to_en' && answerText.match(/[a-zA-Z]/)) {
+        const answerElement = addSpeakButton(answerText, document.createElement('div'));
+        answerTextDiv.appendChild(answerElement);
+        
+        setTimeout(() => {
+            console.log('🔊 英語解答の自動音声再生');
+            speakEnglishText(answerText);
+        }, 1000);
+    } else {
+        answerTextDiv.textContent = answerText;
+    }
+    
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation-text';
+    explanationDiv.textContent = question.explanation || '解説はありません。';
+    
+    answerContent.appendChild(answerTextDiv);
+    answerContent.appendChild(explanationDiv);
+    
+    answerDisplay.classList.add('show');
+    
+    showAnswerBtn.disabled = true;
+    showAnswerBtn.textContent = '✅ 解答済み';
+    nextBtn.disabled = false;
+    
+    studyCount++;
+    document.getElementById('studyCount').textContent = studyCount;
+}
+
+// スピーカーボタン追加
+function addSpeakButton(text, container) {
+    const englishRegex = /[a-zA-Z]/;
+    if (!englishRegex.test(text)) return container;
+    
+    const speakBtn = document.createElement('button');
+    speakBtn.className = 'speak-btn';
+    speakBtn.innerHTML = '🔊';
+    speakBtn.title = '英語で読み上げ';
+    speakBtn.onclick = (e) => {
+        e.stopPropagation();
+        speakEnglishText(text, speakBtn);
+    };
+    
+    const wrapper = document.createElement('span');
+    wrapper.style.display = 'inline-flex';
+    wrapper.style.alignItems = 'center';
+    wrapper.appendChild(document.createTextNode(text));
+    wrapper.appendChild(speakBtn);
+    
+    return wrapper;
+}
+
+// 音声再生
+function speakEnglishText(text, button = null) {
+    console.log('🔊 speakEnglishText実行:', text.substring(0, 50));
+    
+    if (!voiceSystem.isEnabled) {
+        console.log('❌ 音声機能が無効です');
+        return;
+    }
+    
+    if (button) {
+        button.classList.add('speaking');
+    }
+    
+    const utterance = voiceSystem.speak(text);
+    
+    if (utterance) {
+        utterance.onend = () => {
+            if (button) {
+                button.classList.remove('speaking');
+            }
+        };
+        
+        utterance.onerror = () => {
+            if (button) {
+                button.classList.remove('speaking');
+            }
+        };
+    } else {
+        setTimeout(() => {
+            if (button) {
+                button.classList.remove('speaking');
+            }
+        }, 2000);
+    }
+}
+
+// 次の問題
+function nextQuestion() {
+    usedQuestions.push(currentQuestionIndex);
+    
+    if (questionMode === 'sequential') {
+        sequentialIndex++;
+    }
+    
+    incrementClickCount();
+    showNextQuestion();
+}
+
+// クイズ終了
+function endQuiz() {
+    hideAllModals();
+    
+    const gameScreen = document.getElementById('gameScreen');
+    gameScreen.classList.remove('hidden');
+    
+    currentScreen = 'game';
+    updateBackButton();
+    
+    usedQuestions = [];
+    currentQuestionIndex = 0;
+    sequentialIndex = 0;
+    isQuizAnswered = false;
+    stopTimer();
+}
+
+// タイマー開始
+function startTimer() {
+    if (timerLimit === 'unlimited') {
+        updateTimerDisplayUnlimited();
+        return;
+    }
+    
+    currentTimerValue = timerLimit;
+    isTimerRunning = true;
+    updateTimerDisplay();
+    
+    timerInterval = setInterval(() => {
+        currentTimerValue--;
+        updateTimerDisplay();
+        
+        if (currentTimerValue <= 0) {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            if (!isQuizAnswered) {
+                showAnswer();
+            }
+        }
+    }, 1000);
+}
+
+// タイマー表示更新
+function updateTimerDisplay() {
+    const timerValue = document.getElementById('timerValue');
+    const timerDisplay = document.getElementById('timerDisplay');
+    
+    if (timerValue && timerDisplay) {
+        timerValue.textContent = currentTimerValue;
+        
+        if (currentTimerValue > 3) {
+            timerDisplay.className = 'timer-display timer-normal';
+        } else if (currentTimerValue > 1) {
+            timerDisplay.className = 'timer-display timer-warning';
+        } else {
+            timerDisplay.className = 'timer-display timer-danger';
+        }
+    }
+}
+
+// 無制限タイマー表示
+function updateTimerDisplayUnlimited() {
+    const timerValue = document.getElementById('timerValue');
+    const timerDisplay = document.getElementById('timerDisplay');
+    
+    if (timerValue && timerDisplay) {
+        timerValue.textContent = '∞';
+        timerDisplay.className = 'timer-display timer-unlimited';
+    }
+}
+
+// タイマー停止
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    isTimerRunning = false;
+}
+
+// 設定関数
+function setTimerLimit(seconds) {
+    timerLimit = seconds;
+    
+    document.querySelectorAll('.timer-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    if (seconds === 'unlimited') {
+        document.getElementById('timerUnlimitedBtn').classList.add('active');
+    } else {
+        document.getElementById(`timer${seconds}Btn`).classList.add('active');
+    }
+    
+    incrementClickCount();
+}
+
+function setQuestionMode(mode) {
+    questionMode = mode;
+    
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    document.getElementById(`${mode}ModeBtn`).classList.add('active');
+    incrementClickCount();
+}
+
+function setQuestionDirection(direction) {
+    questionDirection = direction;
+    
+    document.querySelectorAll('.direction-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    if (direction === 'jp_to_en') {
+        document.getElementById('jpToEnBtn').classList.add('active');
+    } else if (direction === 'en_to_jp') {
+        document.getElementById('enToJpBtn').classList.add('active');
+    } else if (direction === 'mixed') {
+        document.getElementById('mixedBtn').classList.add('active');
+    }
+    
+    incrementClickCount();
+}
+
+// 音声設定
+function openVoiceSettings() {
+    incrementClickCount();
+    
+    const modal = document.getElementById('voiceSettingsModal');
+    const enabledCheckbox = document.getElementById('voiceEnabled');
+    const toggleDescription = document.getElementById('voiceToggleDescription');
+    
+    if (enabledCheckbox && toggleDescription) {
+        enabledCheckbox.checked = voiceSystem.isEnabled;
+        toggleDescription.textContent = voiceSystem.isEnabled ? '音声機能が有効です' : '音声機能が無効です';
+    }
+    
+    generateSimpleVoiceSelection();
+    
+    currentScreen = 'voice';
+    updateBackButton();
+    
+    if (modal) {
+        modal.classList.add('show');
+    }
+}
+
+function generateSimpleVoiceSelection() {
+    const container = document.getElementById('simpleVoiceSelection');
+    if (!container) return;
+    
+    const simpleHTML = `
+        <div class="simple-voice-container">
+            <div class="voice-selection-title">🎤 音声選択</div>
+            
+            <div class="voice-gender-btn" onclick="selectVoice('male')">
+                <div class="voice-gender-icon">👨</div>
+                <div class="voice-gender-label">男性音声</div>
+                <div class="voice-gender-description">男性の音声で読み上げます</div>
+            </div>
+
+            <div class="voice-gender-btn" onclick="selectVoice('female')">
+                <div class="voice-gender-icon">👩</div>
+                <div class="voice-gender-label">女性音声</div>
+                <div class="voice-gender-description">女性の音声で読み上げます</div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <div class="text-xs text-gray-600">現在の音声: ${voiceSystem.selectedVoice?.name || 'デフォルト'}</div>
+                <div class="text-xs text-gray-500 mt-1">音声機能: ${voiceSystem.isEnabled ? '有効' : '無効'}</div>
+            </div>
+        </div>
+    `;
+
+    container.innerHTML = simpleHTML;
+}
+
+function selectVoice(gender) {
+    incrementClickCount();
+    console.log(`音声選択: ${gender}`);
+    
+    // 簡易的な音声テスト
+    if (voiceSystem.isEnabled) {
+        const testText = gender === 'male' ? "Hello! This is a male voice test." : "Hello! This is a female voice test.";
+        voiceSystem.speak(testText);
+    }
+}
+
+function toggleVoiceEnabled() {
+    const checkbox = document.getElementById('voiceEnabled');
+    const description = document.getElementById('voiceToggleDescription');
+    
+    if (checkbox && description) {
+        voiceSystem.setEnabled(checkbox.checked);
+        description.textContent = checkbox.checked ? '音声機能が有効です' : '音声機能が無効です';
+    }
+}
+
+function closeVoiceSettings() {
+    const modal = document.getElementById('voiceSettingsModal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+    
+    if (currentScreen === 'voice') {
+        currentScreen = 'main';
+        hideAllModals();
+        const mainModal = document.getElementById('mainGradeModal');
+        if (mainModal) {
+            mainModal.classList.add('show');
+        }
+    }
+    
+    updateBackButton();
+}
+
+// ナビゲーション
+function hideAllModals() {
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.classList.remove('show');
+    });
+}
+
+function updateBackButton() {
+    // 実装予定
+}
+
+function goBackToMain() {
+    incrementClickCount();
+    
+    hideAllModals();
+    const gameScreen = document.getElementById('gameScreen');
+    if (gameScreen) {
+        gameScreen.classList.add('hidden');
+    }
+    const mainModal = document.getElementById('mainGradeModal');
+    if (mainModal) {
+        mainModal.classList.add('show');
+    }
+    currentScreen = 'main';
+    updateBackButton();
+    
+    // リセット
+    selectedLessons = [];
+    selectedGrammarItems = [];
+    document.querySelectorAll('.lesson-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+    updateStartButton();
+}
+
+function goBack() {
+    incrementClickCount();
+    
+    if (currentScreen === 'quiz') {
+        endQuiz();
+    } else if (currentScreen === 'game') {
+        hideAllModals();
+        document.getElementById('grade1Modal').classList.add('show');
+        currentScreen = 'grade';
+    } else if (currentScreen === 'grammar') {
+        hideAllModals();
+        document.getElementById('grade1Modal').classList.add('show');
+        currentScreen = 'grade';
+    } else if (currentScreen === 'grade') {
+        goBackToMain();
+    } else if (currentScreen === 'voice') {
+        closeVoiceSettings();
+    } else {
+        goBackToMain();
+    }
+}
+
+// クリック数管理
+function getTodayDateString() {
+    const today = new Date();
+    return today.getFullYear() + '-' + 
+           String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+           String(today.getDate()).padStart(2, '0');
+}
+
+function incrementClickCount() {
+    const today = getTodayDateString();
+    
+    clickStats.total++;
+    sessionClickCount++;
+    
+    if (!clickStats.daily[today]) {
+        clickStats.daily[today] = 0;
+    }
+    clickStats.daily[today]++;
+    
+    updateClickDisplays();
+    saveClickStats();
+    
+    if (!voiceSystem.isActivated) {
+        voiceSystem.ensureAudioContext();
+    }
+    
+    return true;
+}
+
+function updateClickDisplays() {
+    const today = getTodayDateString();
+    const todayClicks = clickStats.daily[today] || 0;
+    
+    const headerTotalElement = document.getElementById('footerTotalClick');
+    const headerTodayElement = document.getElementById('footerTodayClick');
+    const sessionElement = document.getElementById('clickCount');
+    
+    if (headerTotalElement) {
+        headerTotalElement.textContent = clickStats.total;
+    }
+    if (headerTodayElement) {
+        headerTodayElement.textContent = todayClicks;
+    }
+    if (sessionElement) {
+        sessionElement.textContent = sessionClickCount;
+    }
+}
+
+function saveClickStats() {
+    try {
+        localStorage.setItem('newCrownQuizClickStats', JSON.stringify(clickStats));
+    } catch (e) {
+        console.log('クリック統計の保存に失敗しました');
+    }
+}
+
+function loadClickStats() {
+    try {
+        const saved = localStorage.getItem('newCrownQuizClickStats');
+        if (saved) {
+            clickStats = JSON.parse(saved);
+            updateClickDisplays();
+        }
+    } catch (e) {
+        console.log('クリック統計の読み込みに失敗しました');
+        clickStats = { total: 0, daily: {} };
+    }
+}
+
+function confirmResetTotal() {
+    if (confirm('🏆 総クリック数をリセットしますか？\n（この操作は元に戻せません）')) {
+        clickStats.total = 0;
+        saveClickStats();
+        updateClickDisplays();
+    }
+}
+
+function confirmResetToday() {
+    if (confirm('📅 今日のクリック数をリセットしますか？\n（この操作は元に戻せません）')) {
+        const today = getTodayDateString();
+        clickStats.daily[today] = 0;
+        saveClickStats();
+        updateClickDisplays();
+    }
+}
+
+// 初期化実行
+document.addEventListener('DOMContentLoaded', init);
+
+console.log('NEW CROWN Quiz スクリプト読み込み完了');
+</script>
+
+</body>
+</html>
